@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inquesta Solutions — STEM Learning Platform</title>
+  <meta name="description" content="Courses, documentation, community projects, and role-based portals for students, teachers, parents, support, and admins." />
+  <style>
+    :root{
+      --ink:#142122;        /* logo charcoal */
+      --muted:#5f6b6b;
+      --bg:#ffffff;
+      --soft:#f6f8f8;
+      --line:#e6ecec;
+
+      --red:#EE3C31;        /* logo red */
+      --teal:#349BBC;       /* logo blue/teal */
+      --green:#249362;      /* logo green */
+
+      --shadow: 0 18px 45px rgba(20,33,34,.10);
+      --radius: 18px;
+      --radius2: 24px;
+      --max: 1120px;
+      --pad: clamp(18px, 3vw, 28px);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink);
+      background:var(--bg);
+      line-height:1.55;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 var(--pad);}
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,.86);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.2px;
+    }
+    .mark{
+      width:36px; height:36px; border-radius:999px;
+      border:2px solid var(--ink);
+      display:grid; place-items:center;
+      position:relative;
+    }
+    .dots{
+      display:grid;
+      grid-template-columns: 10px 10px;
+      gap:6px;
+      transform: translateY(1px);
+    }
+    .dot{width:12px;height:12px;border-radius:999px;}
+    .dot.red{background:var(--red); grid-column:1 / span 2; justify-self:center;}
+    .dot.teal{background:var(--teal)}
+    .dot.green{background:var(--green)}
+    .menu{
+      display:flex; align-items:center; gap:18px;
+      color:var(--muted); font-weight:600; font-size:14px;
+    }
+    .menu a{padding:10px 10px; border-radius:12px}
+    .menu a:hover{background:var(--soft); color:var(--ink)}
+    .actions{display:flex; gap:10px; align-items:center}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-weight:700;
+      font-size:14px;
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); box-shadow: 0 10px 25px rgba(20,33,34,.08)}
+    .btn.primary{
+      background:linear-gradient(135deg, var(--teal), var(--green));
+      border-color: transparent;
+      color:#fff;
+    }
+    .btn.ghost{
+      background:var(--soft);
+      border-color:transparent;
+      color:var(--ink);
+    }
+
+    /* HERO */
+    .hero{
+      padding: clamp(34px, 6vw, 74px) 0 34px;
+      position:relative;
+      overflow:hidden;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.25fr .9fr;
+      gap: clamp(18px, 3vw, 34px);
+      align-items:center;
+    }
+    @media (max-width: 920px){
+      .heroGrid{grid-template-columns:1fr}
+      .menu{display:none}
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(246,248,248,.9);
+      color:var(--muted);
+      font-weight:700;
+      font-size:13px;
+    }
+    .kicker b{color:var(--ink)}
+    h1{
+      margin:14px 0 10px;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height:1.06;
+      letter-spacing:-.8px;
+    }
+    .lead{
+      margin:0;
+      color:var(--muted);
+      font-size: clamp(15px, 1.5vw, 18px);
+      max-width: 62ch;
+    }
+    .heroCtas{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
+    .metaRow{
+      display:flex; gap:18px; flex-wrap:wrap;
+      margin-top:18px;
+      color:var(--muted);
+      font-weight:650;
+      font-size:13px;
+    }
+    .metaRow span{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:var(--soft);
+      border:1px solid var(--line);
+    }
+    .pillDot{width:9px;height:9px;border-radius:999px}
+    .pillDot.r{background:var(--red)}
+    .pillDot.t{background:var(--teal)}
+    .pillDot.g{background:var(--green)}
+
+    /* Right hero card */
+    .heroCard{
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      background: #fff;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .heroCardTop{
+      padding:18px 18px 14px;
+      border-bottom:1px solid var(--line);
+      background:
+        radial-gradient(900px 260px at 10% 0%, rgba(52,155,188,.20), transparent 60%),
+        radial-gradient(700px 260px at 90% 0%, rgba(36,147,98,.18), transparent 55%),
+        radial-gradient(800px 280px at 50% 90%, rgba(238,60,49,.10), transparent 60%);
+    }
+    .heroCardTop h3{
+      margin:0;
+      font-size:16px;
+      letter-spacing:-.2px;
+    }
+    .heroCardTop p{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .heroCardBody{padding:16px 18px 18px}
+    .miniGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    .mini{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      padding:12px;
+      background: var(--soft);
+    }
+    .mini b{display:block; font-size:13px}
+    .mini small{display:block; color:var(--muted); margin-top:4px; font-weight:650}
+    .mini .tag{
+      display:inline-flex; align-items:center; gap:8px;
+      margin-top:10px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--line);
+      font-size:12px;
+      font-weight:750;
+      color:var(--ink);
+    }
+
+    /* SECTIONS */
+    section{padding: 44px 0}
+    .sectionHead{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:16px; flex-wrap:wrap;
+      margin-bottom: 18px;
+    }
+    .sectionHead h2{
+      margin:0;
+      font-size: clamp(22px, 2.4vw, 30px);
+      letter-spacing:-.4px;
+    }
+    .sectionHead p{
+      margin:0;
+      color:var(--muted);
+      max-width:70ch;
+      font-weight:650;
+    }
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    @media (max-width: 980px){ .cards{grid-template-columns:1fr 1fr} }
+    @media (max-width: 640px){ .cards{grid-template-columns:1fr} }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:16px;
+      background:#fff;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .card:hover{transform: translateY(-2px); box-shadow: 0 14px 34px rgba(20,33,34,.09)}
+    .icon{
+      width:40px;height:40px;border-radius:14px;
+      display:grid;place-items:center;
+      margin-bottom:10px;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(22px 22px at 30% 30%, rgba(52,155,188,.28), transparent 70%),
+        radial-gradient(22px 22px at 70% 70%, rgba(36,147,98,.24), transparent 70%),
+        radial-gradient(22px 22px at 70% 20%, rgba(238,60,49,.16), transparent 70%),
+        var(--soft);
+    }
+    .card h3{margin:0 0 6px; font-size:16px}
+    .card p{margin:0; color:var(--muted); font-weight:650}
+    .card ul{margin:10px 0 0; padding-left:18px; color:var(--muted); font-weight:650}
+    .card li{margin:6px 0}
+
+    /* Split blocks */
+    .split{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 16px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){ .split{grid-template-columns:1fr} }
+    .panel{
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      background: #fff;
+      padding:18px;
+    }
+    .panel.soft{
+      background:
+        radial-gradient(800px 280px at 10% 0%, rgba(52,155,188,.13), transparent 60%),
+        radial-gradient(700px 280px at 90% 0%, rgba(36,147,98,.12), transparent 55%),
+        var(--soft);
+    }
+    .panel h3{margin:0 0 10px; font-size:18px}
+    .checklist{
+      display:grid; gap:10px;
+      margin-top:12px;
+    }
+    .check{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:10px 12px;
+      border-radius: 16px;
+      border:1px solid var(--line);
+      background:#fff;
+    }
+    .tick{
+      width:10px;height:10px;border-radius:3px;
+      margin-top:5px;
+      background:linear-gradient(135deg, var(--teal), var(--green));
+      flex:0 0 auto;
+    }
+    .check b{display:block; font-size:14px}
+    .check span{display:block; color:var(--muted); font-weight:650; font-size:13px; margin-top:2px}
+
+    /* CTA */
+    .cta{
+      padding: 44px 0 70px;
+    }
+    .ctaBox{
+      border:1px solid var(--line);
+      border-radius: 28px;
+      padding: clamp(18px, 3vw, 28px);
+      background:
+        radial-gradient(900px 340px at 15% 10%, rgba(52,155,188,.22), transparent 55%),
+        radial-gradient(700px 320px at 85% 10%, rgba(36,147,98,.20), transparent 55%),
+        radial-gradient(900px 380px at 50% 115%, rgba(238,60,49,.14), transparent 55%),
+        #fff;
+      box-shadow: var(--shadow);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .ctaBox h2{margin:0; font-size: clamp(20px, 2.2vw, 28px)}
+    .ctaBox p{margin:6px 0 0; color:var(--muted); font-weight:650}
+    footer{
+      border-top:1px solid var(--line);
+      padding: 22px 0;
+      color:var(--muted);
+      font-weight:650;
+      font-size:13px;
+    }
+    .footRow{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
+    .links{display:flex; gap:14px; flex-wrap:wrap}
+    .links a:hover{color:var(--ink)}
+  </style>
+</head>
+
+<body>
+  <!-- Top Nav -->
+  <div class="topbar">
+    <div class="wrap">
+      <div class="nav">
+        <a class="brand" href="#">
+          <span class="mark" aria-hidden="true">
+            <span class="dots">
+              <span class="dot red"></span>
+              <span class="dot teal"></span>
+              <span class="dot green"></span>
+            </span>
+          </span>
+          <span>INQUESTA <span style="font-weight:800; opacity:.75">SOLUTIONS</span></span>
+        </a>
+
+        <nav class="menu" aria-label="Primary">
+          <a href="#platform">Platform</a>
+          <a href="#modules">Modules</a>
+          <a href="#content">Courses & Docs</a>
+          <a href="#community">Community</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="actions">
+          <a class="btn ghost" href="#contact">Request Demo</a>
+          <a class="btn primary" href="#platform">Explore Platform →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="heroGrid">
+        <div>
+          <div class="kicker">
+            <span class="pillDot t"></span>
+            <b>STEM Learning + Community</b> platform for institutes & programs
+          </div>
+
+          <h1>
+            Teach, learn, track progress —<br/>
+            all in one place.
+          </h1>
+
+          <p class="lead">
+            Inquesta Solutions brings together a public website, course catalog, documentation portal, and a complete
+            role-based LMS (Student, Teacher, Parent, Support, Admin, Super Admin) with secure access and enrollment keys.
+          </p>
+
+          <div class="heroCtas">
+            <a class="btn primary" href="#contact">Get a Demo</a>
+            <a class="btn" href="#content">Browse Courses & Docs</a>
+          </div>
+
+          <div class="metaRow">
+            <span><span class="pillDot g"></span> Enrollment keys & cohorts</span>
+            <span><span class="pillDot t"></span> Search + SEO-ready content</span>
+            <span><span class="pillDot r"></span> Community projects showcase</span>
+          </div>
+        </div>
+
+        <aside class="heroCard" aria-label="Highlights">
+          <div class="heroCardTop">
+            <h3>What you get on Day 1</h3>
+            <p>Modern homepage + catalog + portals built for scalable education programs.</p>
+          </div>
+
+          <div class="heroCardBody">
+            <div class="miniGrid">
+              <div class="mini">
+                <b>Public Website</b>
+                <small>Programs • Docs • Blog • Enquiries</small>
+                <span class="tag"><span class="pillDot t"></span> SEO + Performance</span>
+              </div>
+              <div class="mini">
+                <b>Learning Platform</b>
+                <small>Lessons • Quizzes • Certificates</small>
+                <span class="tag"><span class="pillDot g"></span> Progress Tracking</span>
+              </div>
+              <div class="mini">
+                <b>Teacher Tools</b>
+                <small>Groups • Keys • Resources</small>
+                <span class="tag"><span class="pillDot r"></span> Cohort Control</span>
+              </div>
+              <div class="mini">
+                <b>Admin + Support</b>
+                <small>RBAC • Tickets • Audit Logs</small>
+                <span class="tag"><span class="pillDot t"></span> Secure & Auditable</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </header>
+
+  <!-- Platform Value Props -->
+  <section id="platform">
+    <div class="wrap">
+      <div class="sectionHead">
+        <div>
+          <h2>A platform designed for real classrooms and real scale</h2>
+          <p>From marketing pages to learning delivery, everything connects—so students start faster and teams manage less.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="icon" aria-hidden="true">📚</div>
+          <h3>Programs & Courses Catalog</h3>
+          <p>Showcase offerings with filters, detail pages, and clear calls-to-action.</p>
+          <ul>
+            <li>Catalog pages + course detail pages</li>
+            <li>Brochure/PDF downloads (optional lead gate)</li>
+            <li>Fast, SEO-friendly structure</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="icon" aria-hidden="true">🧭</div>
+          <h3>Documentation Portal</h3>
+          <p>Structured docs with clean navigation for tools, kits, and tutorials.</p>
+          <ul>
+            <li>Categories + table of contents</li>
+            <li>Code blocks + versionable docs</li>
+            <li>Search-ready knowledge base</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="icon" aria-hidden="true">🔎</div>
+          <h3>Site-wide Search</h3>
+          <p>Search across courses, docs, projects, and resources with filters.</p>
+          <ul>
+            <li>Fast results + suggestions</li>
+            <li>Optional typo tolerance & synonyms</li>
+            <li>Analytics events for insights</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modules -->
+  <section id="modules">
+    <div class="wrap">
+      <div class="split">
+        <div class="panel">
+          <h3>Role-based portals (RBAC) built for learning workflows</h3>
+          <p style="margin:0;color:var(--muted);font-weight:650;">
+            Each user sees exactly what they need—nothing more. Clean permissions, safer operations, smoother support.
+          </p>
+
+          <div class="checklist">
+            <div class="check">
+              <span class="tick" aria-hidden="true"></span>
+              <div>
+                <b>Student Panel</b>
+                <span>My Courses, lesson player, quizzes, progress tracking, certificates.</span>
+              </div>
+            </div>
+            <div class="check">
+              <span class="tick" aria-hidden="true"></span>
+              <div>
+                <b>Teacher Panel</b>
+                <span>Create/manage learning groups, issue enrollment keys, teacher resource library.</span>
+              </div>
+            </div>
+            <div class="check">
+              <span class="tick" aria-hidden="true"></span>
+              <div>
+                <b>Parent Panel</b>
+                <span>Child linking + progress reports so guardians stay informed.</span>
+              </div>
+            </div>
+            <div class="check">
+              <span class="tick" aria-hidden="true"></span>
+              <div>
+                <b>Support Panel</b>
+                <span>Ticket inbox + knowledge base management for faster resolutions.</span>
+              </div>
+            </div>
+            <div class="check">
+              <span class="tick" aria-hidden="true"></span>
+              <div>
+                <b>Admin Panel</b>
+                <span>Courses/lessons/quizzes, enrollment key management, roles & permissions.</span>
+              </div>
+            </div>
+            <div class="check">
+              <span class="tick" aria-hidden="true"></span>
+              <div>
+                <b>Super Admin</b>
+                <span>Multi-institution management, branding, audit logs & access tracking.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel soft">
+          <h3>How it works</h3>
+          <p style="margin:0;color:var(--muted);font-weight:650;">
+            A simple flow that matches your Excel features (Auth + Enrollment → Learning → Tracking → Support).
+          </p>
+
+          <div class="checklist">
+            <div class="check">
+              <span class="tick" aria-hidden="true"></span>
+              <div>
+                <b>1) Users sign up / log in</b>
+                <span>Role selection + secure login with password reset.</span>
+              </div>
+            </div>
+            <div class="check">
+              <span class="tick" aria-hidden="true"></span>
+              <div>
+                <b>2) Enroll using keys</b>
+                <span>Redeem enrollment codes mapped to courses/kits/programs.</span>
+              </div>
+            </div>
+            <div class="check">
+              <span class="tick" aria-hidden="true"></span>
+              <div>
+                <b>3) Learn and assess</b>
+                <span>Lesson player + quizzes, scoring, attempts, completion flow.</span>
+              </div>
+            </div>
+            <div class="check">
+              <span class="tick" aria-hidden="true"></span>
+              <div>
+                <b>4) Track progress</b>
+                <span>Student progress + parent reports + admin oversight.</span>
+              </div>
+            </div>
+            <div class="check">
+              <span class="tick" aria-hidden="true"></span>
+              <div>
+                <b>5) Support & improve</b>
+                <span>Tickets, knowledge base, and audit logs for accountability.</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn primary" href="#contact">Talk to Us</a>
+            <a class="btn" href="#community">See Community Showcase</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section id="content">
+    <div class="wrap">
+      <div class="sectionHead">
+        <div>
+          <h2>Content that builds trust: Courses, Docs, Blog & Downloads</h2>
+          <p>Everything needed for discovery and conversion—without overwhelming the visitor.</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="icon" aria-hidden="true">📰</div>
+          <h3>Blog / News</h3>
+          <p>Announcements, events, outcomes, and program updates—easy to publish and share.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true">📄</div>
+          <h3>Brochures & Resources</h3>
+          <p>PDF downloads with optional lead capture and tracking for marketing teams.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true">🧩</div>
+          <h3>Reusable Content Blocks</h3>
+          <p>Structured sections for program pages, FAQs, outcomes, and highlights.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community -->
+  <section id="community">
+    <div class="wrap">
+      <div class="sectionHead">
+        <div>
+          <h2>A community showcase that motivates learners</h2>
+          <p>Highlight student projects publicly with categories, tags, moderation, and featured posts.</p>
+        </div>
+      </div>
+
+      <div class="split">
+        <div class="panel">
+          <h3>Project gallery (public)</h3>
+          <p style="margin:0;color:var(--muted);font-weight:650;">
+            Cards, filters, load-more, and project detail pages that make learning outcomes visible.
+          </p>
+          <div class="checklist">
+            <div class="check"><span class="tick" aria-hidden="true"></span><div><b>Tag filters</b><span>Find projects by category, level, or kit.</span></div></div>
+            <div class="check"><span class="tick" aria-hidden="true"></span><div><b>Moderation flow</b><span>Approve submissions before they go live.</span></div></div>
+            <div class="check"><span class="tick" aria-hidden="true"></span><div><b>Featured projects</b><span>Promote the best work on the homepage.</span></div></div>
+          </div>
+        </div>
+
+        <div class="panel soft">
+          <h3>Built for growth</h3>
+          <p style="margin:0;color:var(--muted);font-weight:650;">
+            Add optional enhancements when you’re ready.
+          </p>
+          <div class="checklist">
+            <div class="check"><span class="tick" aria-hidden="true"></span><div><b>Likes & comments</b><span>Increase engagement and learning pride.</span></div></div>
+            <div class="check"><span class="tick" aria-hidden="true"></span><div><b>Badges & certificates</b><span>Celebrate progress and milestones.</span></div></div>
+            <div class="check"><span class="tick" aria-hidden="true"></span><div><b>AI/semantic search</b><span>Smarter discovery across content.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <div class="wrap">
+      <div class="ctaBox">
+        <div>
+          <h2>Ready to launch your STEM learning ecosystem?</h2>
+          <p>Share your program structure, course list, and branding—Inquesta will align the platform to your needs.</p>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn primary" href="#">Request a Demo</a>
+          <a class="btn" href="#">Contact / Enquiry</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footRow">
+        <div>© <span id="y"></span> Inquesta Solutions. All rights reserved.</div>
+        <div class="links">
+          <a href="#platform">Platform</a>
+          <a href="#modules">Modules</a>
+          <a href="#content">Content</a>
+          <a href="#community">Community</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
